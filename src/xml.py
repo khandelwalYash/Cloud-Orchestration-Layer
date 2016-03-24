@@ -1,0 +1,40 @@
+def create_xml(id, uuid, name, memory, cpu, img):
+  
+  xml = """<domain type='kvm' id='{0}'>
+  <uuid>{1}</uuid>
+  <name>{2}</name>
+
+  <memory unit='KiB'>{3}</memory>
+  <currentMemory unit='KiB'>{3}</currentMemory>
+  <vcpu>{4}</vcpu>
+
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  
+  <devices>
+      <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <target dev='hda' bus='ide'/>
+      </disk>
+    
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='{5}'/>
+      <target dev='hdc' bus='ide'/>
+      <readonly/>
+    </disk>
+</devices>
+  <os>
+  <type arch='i686' machine='pc'>hvm</type>
+  <boot dev='cdrom'/>
+  </os>
+  </domain>""".format(id, uuid, name, memory, cpu, img)
+
+  return xml
